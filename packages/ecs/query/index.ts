@@ -45,29 +45,27 @@ export function Optional<C extends Component>(
   }
 }
 
-type GetDefaultState<T> = T extends Component<infer State>
-  ? State
+type GetDefaultData<T> = T extends Component<infer Data>
+  ? Data
   : T extends string
   ? string
   : T extends OptionalModifier<infer C>
-  ? GetDefaultState<C> | undefined
+  ? GetDefaultData<C> | undefined
   : never
 
 export type MapQueryReturn<T extends unknown[]> = T extends [
   infer First,
   ...infer Rest
 ]
-  ? [GetDefaultState<First>, ...MapQueryReturn<Rest>]
+  ? [GetDefaultData<First>, ...MapQueryReturn<Rest>]
   : []
 
 export class Query<T extends QueryComponentsTuple> {
-
   private _withComponents = new Set<Component>()
 
   private _withoutComponents = new Set<Component>()
 
   constructor(private _components: T, ...modifiers: QueryModifier[]) {
-    console.log(modifiers,0)
     modifiers.forEach((modifier) => {
       const modifierComponentSet =
         modifier.type === Modifier.With
@@ -84,15 +82,18 @@ export class Query<T extends QueryComponentsTuple> {
     const queryComponents = this._components.filter(
       (component): component is Component => component instanceof Component
     )
-    for (const entity of world.entities.values() ){
+    for (const entity of world.entities.values()) {
       if (
-        [...this._withoutComponents].some((component) => entity.has(component)) ||
-        ![...this._withComponents].every((component) => entity.has(component)) ||
+        [...this._withoutComponents].some((component) =>
+          entity.has(component)
+        ) ||
+        ![...this._withComponents].every((component) =>
+          entity.has(component)
+        ) ||
         !queryComponents.every((component) => {
           return entity.has(component)
         })
       ) {
-        // eslint-disable-next-line no-continue
         continue
       }
 

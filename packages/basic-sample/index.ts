@@ -33,7 +33,7 @@ const Player = defineComponent({})
 const Enemy = defineComponent({})
 
 const VQuery = createQuery([Velocity])
-const PQuery = createQuery([Position])
+const PQuery = createQuery([Position,Optional(Enemy),Optional(Player)])
 
 // const query = Query.exec(world)
 // console.log(query)
@@ -65,8 +65,9 @@ export class Game {
   //temp
   positionSystem: System = (world, deltaTime) => {
     const graphics = new Graphics()
-    for (const [entity] of PQuery.exec(world)) {
-      graphics.beginFill(0xff0000)
+    for (const [entity,enemy, player] of PQuery.exec(world)) {
+      const color = player ? '#FFA500' : '#FF1493'
+      graphics.beginFill(color)
       graphics.drawRect(entity.x, entity.y, 50, 50)
     }
     this.app.stage.addChild(graphics)
@@ -84,9 +85,10 @@ export class Game {
     this.world.add(character)
     for (let i = 0; i < 10; i++) {
       const enemy = createEntity()
-        .add(Position.create({ x: 10 * i, y: 10 * i }))
+        .add(Position.create({ x: 50 * i, y: 50 * i }))
         .add(Velocity.create({ x: 0.1 * i, y: 0.2 * i }))
         .add(Name.create({ name: '敌人' }))
+        .add(Enemy.create())
       this.world.add(enemy)
     }
   }

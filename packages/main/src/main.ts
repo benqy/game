@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
-import { sayHi } from '@benqy/ecs'
+import './game'
 
-sayHi('Benqy')
+
 createApp(App).mount('#app')

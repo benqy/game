@@ -7,7 +7,7 @@
     "experimentalDecorators": true,
     "noUnusedLocals": true,
     "skipLibCheck": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "moduleResolution": "node"
   }
 }

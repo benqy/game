@@ -15,10 +15,19 @@ importers:
         specifier: ^0.1.3
         version: 0.1.3
 
+  packages/basic-sample:
+    dependencies:
+      '@benqy/ecs':
+        specifier: workspace:^
+        version: link:../ecs
+
   packages/ecs: {}
 
   packages/main:
     dependencies:
+      '@benqy/basic-sample':
+        specifier: workspace:^
+        version: link:../basic-sample
       '@benqy/ecs':
         specifier: workspace:^
         version: link:../ecs

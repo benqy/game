@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@benqy/basic-sample": "workspace:^",
     "@benqy/ecs": "workspace:^",
     "vue": "^3.3.4"
   },

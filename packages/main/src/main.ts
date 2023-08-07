@@ -1,7 +1,9 @@
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
-import './game'
-
-
 createApp(App).mount('#app')
+import { Game } from "@benqy/basic-sample"
+
+const game = new Game('game')
+game.setup()
+game.start()

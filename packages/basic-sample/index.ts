@@ -18,7 +18,7 @@ const randomPosition = () => {
   }
 }
 
-export class Game {
+export class BasicGame {
   constructor(public id: string) {
     const el: HTMLElement = document.querySelector(`#${id}`)!
     this.app = new Application<HTMLCanvasElement>({

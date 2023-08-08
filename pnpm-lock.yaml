@@ -26,6 +26,21 @@ importers:
 
   packages/ecs: {}
 
+  packages/engine:
+    dependencies:
+      '@benqy/ecs':
+        specifier: workspace:^
+        version: link:../ecs
+      pixi.js:
+        specifier: ^7.2.4
+        version: 7.2.4(@pixi/utils@7.2.4)
+
+  packages/hapi:
+    dependencies:
+      '@benqy/engine':
+        specifier: workspace:^
+        version: link:../engine
+
   packages/main:
     dependencies:
       '@benqy/basic-sample':
@@ -34,6 +49,9 @@ importers:
       '@benqy/ecs':
         specifier: workspace:^
         version: link:../ecs
+      '@benqy/hapi':
+        specifier: workspace:^
+        version: link:../hapi
       vue:
         specifier: ^3.3.4
         version: 3.3.4

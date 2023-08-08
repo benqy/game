@@ -11,6 +11,7 @@
   "dependencies": {
     "@benqy/basic-sample": "workspace:^",
     "@benqy/ecs": "workspace:^",
+    "@benqy/hapi": "workspace:^",
     "vue": "^3.3.4"
   },
   "devDependencies": {

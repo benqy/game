@@ -19,6 +19,8 @@ export const Velocity = defineComponent(() => {
   }
 })
 
+export const Collider = defineComponent({})
+
 export const Name = defineComponent({
   name: 'name',
 })

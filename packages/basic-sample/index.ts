@@ -45,9 +45,10 @@ export class Game {
     //TODO Spawn System
     const character = createEntity()
       .add(C.Position.create(randomPosition()))
-      .add(C.Velocity.create({ x: 15, y: 10 }))
+      .add(C.Velocity.create({ x: 2, y: 6 }))
       .add(C.Name.create({ name: '玩家' }))
       .add(C.Size.create({ width: 80, height: 80 }))
+      .add(C.Collider.create())
       .add(C.Player.create())
     this.world.add(character)
 
@@ -56,11 +57,12 @@ export class Game {
         .add(C.Position.create(randomPosition()))
         .add(
           C.Velocity.create({
-            x: randomBetween(5, 25),
-            y: randomBetween(10, 30),
+            x: randomBetween(1, 5),
+            y: randomBetween(1, 10),
           })
         )
         .add(C.Size.create({ width: 50, height: 50 }))
+        .add(C.Collider.create())
         .add(C.Name.create({ name: '敌人' }))
         .add(C.Enemy.create())
       this.world.add(enemy)
@@ -69,16 +71,17 @@ export class Game {
 
   start() {
     console.log(this.world)
-    requestAnimationFrame(() => this.update())
+    this.app.ticker.add((deltaTime)=>{
+      this.update(deltaTime)
+    })
   }
 
-  private update() {
+  private update(deltaTime: number) {
     S.renderSystem({
       world: this.world,
       graphics: this.graphics,
       deltaTime: 0.16,
     })
-    S.moveSystem({ world: this.world, deltaTime: 0.16 })
-    requestAnimationFrame(() => this.update())
+    S.moveSystem({ world: this.world, deltaTime })
   }
 }

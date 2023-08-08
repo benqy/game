@@ -19,19 +19,34 @@ const renderQuery = createQuery([
   Optional(C.Player),
 ])
 
+
 export const moveSystem = ({ world, deltaTime }: SystemOptions) => {
-  for (const [velocity, collider, position, size] of moveQuery.exec(world)) {
-    //如果有碰撞组件,直接用Size作为碰撞体积,实际应用中碰撞体积与渲染体积不一定一致
-    if (collider) {
-      if (position.x < 0 || position.x > 800 - size.width) {
-        velocity.x = -velocity.x
+  const entities = moveQuery.exec(world)
+  for (let i = 0; i < entities.length; i++) {
+    const [velocity1, collider1, position1, size1] = entities[i]
+    if (collider1) {
+      for (let j = i + 1; j < entities.length; j++) {
+        const [velocity2, collider2, position2, size2] = entities[j]
+        if (collider2) {
+          const collidesX = position1.x < position2.x + size2.width && position1.x + size1.width > position2.x
+          const collidesY = position1.y < position2.y + size2.height && position1.y + size1.height > position2.y
+          if (collidesX && collidesY) {
+            velocity1.x = -velocity1.x
+            velocity1.y = -velocity1.y
+            velocity2.x = -velocity2.x
+            velocity2.y = -velocity2.y
+          }
+        }
       }
-      if (position.y < 0 || position.y > 600 - size.height) {
-        velocity.y = -velocity.y
+      if (position1.x < 0 || position1.x > 800 - size1.width) {
+        velocity1.x = -velocity1.x
       }
+      if (position1.y < 0 || position1.y > 600 - size1.height) {
+        velocity1.y = -velocity1.y
+      }
+      position1.x += velocity1.x * deltaTime
+      position1.y += velocity1.y * deltaTime
     }
-    position.x += velocity.x * deltaTime
-    position.y += velocity.y * deltaTime
   }
 }
 

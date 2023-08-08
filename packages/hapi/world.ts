@@ -1,8 +1,11 @@
-import { World } from '@benqy/ecs'
+import { World, createEntity } from '@benqy/ecs'
 import { Tile, HapiOptions } from './types'
-import { Application } from 'pixi.js'
+import { Application, Graphics } from 'pixi.js'
 import { TILESIZE } from './constants'
 import { mapSys } from './systems/map'
+import * as C from './components'
+import { cameraSys } from './systems/camera'
+import { moveSys } from './systems/move'
 
 export class HapiWorld extends World {
   private firstUpdateFlag = true
@@ -26,6 +29,8 @@ export class HapiWorld extends World {
       antialias: true,
       resolution: window.devicePixelRatio || 1,
     })
+    this.graphics = new Graphics()
+    this.app.stage.addChild(this.graphics)
     view.appendChild(this.app.view)
     this.setup()
   }
@@ -33,15 +38,24 @@ export class HapiWorld extends World {
   opts = {
     view: document.body,
   }
+  private graphics: Graphics
   private app: Application<HTMLCanvasElement>
   map: Tile[][] = []
 
   private setup() {
+    const character = createEntity()
+      .add(C.Position.create({ x: 900, y: 500 }))
+      .add(C.Tranform.create({ width: 50, height: 50 }))
+      .add(C.Player.create())
+      .add(C.Velocity.create({ x: 2, y: 6 }))
+      .add(C.Camera.create({ width: 300 }))
+    this.add(character)
   }
 
   start() {
+    this.app.start()
     this.app.ticker.add((deltaTime) => {
-      if(this.firstUpdateFlag){
+      if (this.firstUpdateFlag) {
         this.firstUpdate(deltaTime)
         this.firstUpdateFlag = false
       }
@@ -53,9 +67,13 @@ export class HapiWorld extends World {
     console.log(deltaTime)
     const xTileNum = Math.floor(this.opts.view.offsetWidth / TILESIZE)
     const yTileNum = Math.floor(this.opts.view.offsetHeight / TILESIZE)
-    mapSys({ world: this, app: this.app, deltaTime: 0 },xTileNum,yTileNum)
+    mapSys({ world: this, app: this.app, deltaTime: 0 }, xTileNum, yTileNum)
     console.log(this.map)
   }
 
-  private update(deltaTime: number) {}
+  private update(deltaTime: number) {
+    
+    cameraSys({ world: this, app: this.app, deltaTime },this.graphics)
+    moveSys({ world: this, deltaTime })
+  }
 }

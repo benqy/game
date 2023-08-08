@@ -8,7 +8,7 @@ $blue-color: #226699; */
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 } */
 #app {
-  scale: 25%;
+  /* scale: 25%; */
   width: 100vw;
   height: 100vh;
 }

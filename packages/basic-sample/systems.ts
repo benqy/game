@@ -38,7 +38,7 @@ export const collisionSystem = ({ world }: SystemOptions) => {
   for (let i = 0; i < players.length; i++) {
     const [collider1, position1, size1] = players[i]
     if (collider1) {
-      for (let j = i ; j < entities.length; j++) {
+      for (let j = i; j < entities.length; j++) {
         const [id, collider2, position2, size2] = entities[j]
         if (collider2) {
           const collidesX =
@@ -49,8 +49,8 @@ export const collisionSystem = ({ world }: SystemOptions) => {
             position1.y + size1.height > position2.y
           if (collidesX && collidesY) {
             world.remove(id)
-            size1.height += 2
-            size1.width += 2
+            // size1.height += 1
+            // size1.width += 1
           }
         }
       }
@@ -58,10 +58,29 @@ export const collisionSystem = ({ world }: SystemOptions) => {
   }
 }
 
+const brightColors = [
+  '#FFA500',
+  '#FFFF00',
+  '#00FF00',
+  '#00FFFF',
+  '#0000FF',
+  '#FF00FF',
+  '#FF1493',
+  '#FF69B4',
+  '#ADFF2F',
+  '#00FF7F',
+  '#1E90FF',
+  '#8A2BE2',
+  '#FFC0CB',
+  '#FF8C00',
+]
+
 export const renderSystem = ({ world, graphics }: RenderSystemOption) => {
   graphics.clear()
   for (const [position, size, , player] of renderQuery.exec(world)) {
-    const color = player ? '#FFA500' : '#FF1493'
+    const color = player
+      ? '#000000'
+      : brightColors[Math.floor(Math.random() * brightColors.length)]
     graphics.beginFill(color)
     graphics.drawRect(position.x, position.y, size.width, size.height)
   }

@@ -47,12 +47,12 @@ export class Game {
       .add(C.Position.create(randomPosition()))
       .add(C.Velocity.create({ x: 2, y: 6 }))
       .add(C.Name.create({ name: '玩家' }))
-      .add(C.Size.create({ width: 80, height: 80 }))
+      .add(C.Size.create({ width: 50, height: 50 }))
       .add(C.Collider.create({ group: '2' }))
       .add(C.Player.create())
     this.world.add(character)
 
-    for (let i = 1; i < 60; i++) {
+    for (let i = 1; i < 5000; i++) {
       const enemy = createEntity()
         .add(C.Position.create(randomPosition()))
         .add(

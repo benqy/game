@@ -8,7 +8,8 @@
 
 <style scoped>
   #game {
-    width: 800px;
-    height: 800px;
+    scale: 25%;
+    width: 2400px;
+    height: 1800px;
   }
 </style>

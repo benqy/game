@@ -37,9 +37,12 @@ importers:
 
   packages/hapi:
     dependencies:
-      '@benqy/engine':
+      '@benqy/ecs':
         specifier: workspace:^
-        version: link:../engine
+        version: link:../ecs
+      pixi.js:
+        specifier: ^7.2.4
+        version: 7.2.4(@pixi/utils@7.2.4)
 
   packages/main:
     dependencies:

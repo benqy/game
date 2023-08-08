@@ -1,0 +1,1 @@
+export const randomByRatio = (ratio: number) => Math.random() < ratio

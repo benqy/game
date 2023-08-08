@@ -8,5 +8,6 @@ createApp(App).mount('#app')
 // const game = new BasicGame('game')
 // game.start()
 
-new Hapi()
+const hapi = new Hapi({view:document.querySelector('#game')!})
+hapi.start()
 

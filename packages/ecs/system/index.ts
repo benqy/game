@@ -1,3 +1,5 @@
 import { World } from '../world'
-
-export type System = (world: World, deltaTime: number) => void
+export type SystemOptions = {
+  world: World,
+  deltaTime: number
+}

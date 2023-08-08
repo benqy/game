@@ -1,59 +1,22 @@
 import { Application, Graphics } from 'pixi.js'
-import {
-  defineComponent,
-  createEntity,
-  createQuery,
-  World,
-  Optional,
-  SystemOptions,
-} from '@benqy/ecs'
-
-type RenderSystemOption = SystemOptions & {
-  graphics: Graphics
-}
-
-const Position = defineComponent(() => {
-  return {
-    x: 0,
-    y: 0,
-  }
-})
-
-const Velocity = defineComponent(() => {
-  return {
-    x: 0,
-    y: 0,
-  }
-})
-
-const Name = defineComponent({
-  name: 'name',
-})
-
-const Player = defineComponent({})
-
-const Enemy = defineComponent({})
-
-const VQuery = createQuery([Velocity,Position])
-const PQuery = createQuery([Position, Optional(Enemy), Optional(Player)])
-
-const moveSystem = ({world,deltaTime}: SystemOptions) => {
-  for (const [velocity,position] of VQuery.exec(world)) {
-    position.x += velocity.x * deltaTime
-    position.y += velocity.y * deltaTime
-  }
-}
-
-const renderSystem = ({ world, graphics }: RenderSystemOption) => {
-  graphics.clear()
-  for (const [position, , player] of PQuery.exec(world)) {
-    const color = player ? '#FFA500' : '#FF1493'
-    graphics.beginFill(color)
-    graphics.drawRect(position.x, position.y, 50, 50)
-  }
-}
+import * as C from './components'
+import * as S from './systems'
+import { createEntity, World } from '@benqy/ecs'
 
 const world = new World()
+const width = 800
+const height = 600
+
+const randomBetween = (min: number, max: number) => {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+const randomPosition = () => {
+  return {
+    x: randomBetween(100, 700),
+    y: randomBetween(100, 500),
+  }
+}
 
 export class Game {
   constructor(public id: string) {
@@ -61,7 +24,8 @@ export class Game {
     this.app = new Application<HTMLCanvasElement>({
       // backgroundAlpha: 0,
       backgroundColor: 0x1099bb,
-      resizeTo: el,
+      width,
+      height,
       antialias: true,
       resolution: window.devicePixelRatio || 1,
     })
@@ -69,6 +33,7 @@ export class Game {
     this.graphics = new Graphics()
     el.appendChild(this.app.view)
     this.app.stage.addChild(this.graphics)
+    this.setup()
   }
 
   //temp
@@ -76,20 +41,28 @@ export class Game {
   private app: Application<HTMLCanvasElement>
   world = world
 
-  setup() {
+  private setup() {
+    //TODO Spawn System
     const character = createEntity()
-      .add(Position.create({ x: 300, y: 200 }))
-      .add(Velocity.create({ x: 2,y:1 }))
-      .add(Name.create({ name: '玩家' }))
-      .add(Player.create())
+      .add(C.Position.create(randomPosition()))
+      .add(C.Velocity.create({ x: 15, y: 10 }))
+      .add(C.Name.create({ name: '玩家' }))
+      .add(C.Size.create({ width: 80, height: 80 }))
+      .add(C.Player.create())
     this.world.add(character)
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 1; i < 6; i++) {
       const enemy = createEntity()
-        .add(Position.create({ x: 50 * i, y: 50 * i }))
-        .add(Velocity.create({ x: 0.1 * i, y: 0.2 * i }))
-        .add(Name.create({ name: '敌人' }))
-        .add(Enemy.create())
+        .add(C.Position.create(randomPosition()))
+        .add(
+          C.Velocity.create({
+            x: randomBetween(5, 25),
+            y: randomBetween(10, 30),
+          })
+        )
+        .add(C.Size.create({ width: 50, height: 50 }))
+        .add(C.Name.create({ name: '敌人' }))
+        .add(C.Enemy.create())
       this.world.add(enemy)
     }
   }
@@ -100,8 +73,12 @@ export class Game {
   }
 
   private update() {
-    renderSystem({ world: this.world, graphics: this.graphics, deltaTime: 0.16 })
-    moveSystem({ world: this.world, deltaTime: 0.16 })
-    requestAnimationFrame(()=>this.update())
+    S.renderSystem({
+      world: this.world,
+      graphics: this.graphics,
+      deltaTime: 0.16,
+    })
+    S.moveSystem({ world: this.world, deltaTime: 0.16 })
+    requestAnimationFrame(() => this.update())
   }
 }

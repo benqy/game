@@ -1,3 +1,4 @@
+import { Application } from "pixi.js"
 import { HapiWorld } from "./world"
 
 export type Tile = {
@@ -22,4 +23,8 @@ export type HapiOptions = {
 export type SysOpts = {
   world: HapiWorld,
   deltaTime: number
+}
+
+export type RenderOpts = SysOpts & {
+  app: Application
 }

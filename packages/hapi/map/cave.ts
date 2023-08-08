@@ -4,12 +4,12 @@ import { randomByRatio } from '../utils'
 type OnProgress = (map: Tile[][]) => void
 
 type Options = {
-  blockRatio: number
-  iterations: number
-  aliveThreshold: number
+  blockRatio?: number
+  iterations?: number
+  aliveThreshold?: number
   width?: number
   height?: number
-  roomMinSize: number
+  roomMinSize?: number
 }
 //TODO:优化生成性能,优化连通算法
 export class CaveAutomaton {
@@ -69,7 +69,7 @@ export class CaveAutomaton {
       this.map[y][0].isBlock = true
       this.map[y][this.opts.width - 1].isBlock = true
     }
-    for (var x = 0; x < this.opts.height; x++) {
+    for (var x = 0; x < this.opts.width; x++) {
       this.map[0][x].isBlock = true
       this.map[this.opts.height - 1][x].isBlock = true
     }
@@ -128,13 +128,13 @@ export class CaveAutomaton {
   }
 
   //这里宽高指的是地图的网格数量，不是真实的尺寸
-  async generate(onProgress?: OnProgress) {
+  generate(onProgress?: OnProgress) {
     this.initMap()
 
     for (var i = 0; i < this.opts.iterations; i++) {
       this.cellularEvolution()
       if (onProgress) {
-        await new Promise((resolve) => setTimeout(resolve, 100))
+        // new Promise((resolve) => setTimeout(resolve, 100))
         onProgress(this.map)
       }
     }

@@ -48,7 +48,7 @@ export class Game {
       .add(C.Velocity.create({ x: 2, y: 6 }))
       .add(C.Name.create({ name: '玩家' }))
       .add(C.Size.create({ width: 80, height: 80 }))
-      .add(C.Collider.create())
+      .add(C.Collider.create({ group: '2' }))
       .add(C.Player.create())
     this.world.add(character)
 
@@ -62,7 +62,7 @@ export class Game {
           })
         )
         .add(C.Size.create({ width: 50, height: 50 }))
-        .add(C.Collider.create())
+        .add(C.Collider.create({ group: '3' }))
         .add(C.Name.create({ name: '敌人' }))
         .add(C.Enemy.create())
       this.world.add(enemy)
@@ -71,7 +71,7 @@ export class Game {
 
   start() {
     console.log(this.world)
-    this.app.ticker.add((deltaTime)=>{
+    this.app.ticker.add((deltaTime) => {
       this.update(deltaTime)
     })
   }
@@ -83,5 +83,6 @@ export class Game {
       deltaTime: 0.16,
     })
     S.moveSystem({ world: this.world, deltaTime })
+    S.collisionSystem({ world: this.world, deltaTime })
   }
 }

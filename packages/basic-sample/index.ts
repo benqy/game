@@ -82,7 +82,7 @@ export class Game {
       graphics: this.graphics,
       deltaTime: 0.16,
     })
-    S.moveSystem({ world: this.world, deltaTime })
     S.collisionSystem({ world: this.world, deltaTime })
+    S.moveSystem({ world: this.world, deltaTime })
   }
 }

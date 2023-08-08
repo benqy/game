@@ -9,7 +9,7 @@ type RenderSystemOption = SystemOptions & {
 const moveQuery = createQuery([C.Velocity, C.Position, C.Size])
 
 const enemyQuery = createQuery(['id', C.Collider, C.Position, C.Size, C.Enemy])
-const playerQuery = createQuery([C.Collider, C.Position, C.Size, C.Player])
+const playerQuery = createQuery([C.Velocity, C.Collider, C.Position, C.Size, C.Player])
 
 const renderQuery = createQuery([
   C.Position,
@@ -36,7 +36,7 @@ export const collisionSystem = ({ world }: SystemOptions) => {
   const players = playerQuery.exec(world)
   const entities = enemyQuery.exec(world)
   for (let i = 0; i < players.length; i++) {
-    const [collider1, position1, size1] = players[i]
+    const [velocity,collider1, position1, size1] = players[i]
     if (collider1) {
       for (let j = i; j < entities.length; j++) {
         const [id, collider2, position2, size2] = entities[j]
@@ -49,6 +49,8 @@ export const collisionSystem = ({ world }: SystemOptions) => {
             position1.y + size1.height > position2.y
           if (collidesX && collidesY) {
             world.remove(id)
+            velocity.x = -velocity.x
+            velocity.y = -velocity.y
             // size1.height += 1
             // size1.width += 1
           }

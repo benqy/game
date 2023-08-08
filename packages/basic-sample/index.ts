@@ -52,7 +52,7 @@ export class Game {
       .add(C.Player.create())
     this.world.add(character)
 
-    for (let i = 1; i < 6; i++) {
+    for (let i = 1; i < 60; i++) {
       const enemy = createEntity()
         .add(C.Position.create(randomPosition()))
         .add(

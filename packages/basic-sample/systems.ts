@@ -38,7 +38,7 @@ export const collisionSystem = ({ world }: SystemOptions) => {
   for (let i = 0; i < players.length; i++) {
     const [collider1, position1, size1] = players[i]
     if (collider1) {
-      for (let j = i + 1; j < entities.length; j++) {
+      for (let j = i ; j < entities.length; j++) {
         const [id, collider2, position2, size2] = entities[j]
         if (collider2) {
           const collidesX =
@@ -49,6 +49,8 @@ export const collisionSystem = ({ world }: SystemOptions) => {
             position1.y + size1.height > position2.y
           if (collidesX && collidesY) {
             world.remove(id)
+            size1.height += 2
+            size1.width += 2
           }
         }
       }

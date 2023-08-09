@@ -20,10 +20,12 @@ export function cameraSys({ world, app }: RenderOpts, graphics: Graphics) {
     ) {
       const tile = world.map[Math.floor(y)]?.[Math.floor(x)]
       if (tile) {
+        const xOffset = (x % 1)* TILESIZE
+        const yOffset = (y % 1)*TILESIZE
         graphics.beginFill(tile.isBlock ? 0x333333 : 0xaaaaaa)
         graphics.drawRect(
-          center.x + (position.x - x) * TILESIZE,
-          center.y + (position.y - y) * TILESIZE,
+          center.x + (position.x - x) * TILESIZE + xOffset,
+          center.y + (position.y - y) * TILESIZE + yOffset,
           TILESIZE,
           TILESIZE
         )

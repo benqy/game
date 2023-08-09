@@ -9,24 +9,22 @@ import { moveSys } from './systems/move'
 
 export class HapiWorld extends World {
   private firstUpdateFlag = true
+  mapSize = { x: 100, y: 100 }
   constructor(opts?: HapiOptions) {
     super()
     if (opts) this.opts = { ...this.opts, ...opts }
     const view = this.opts.view
     // console.log(view.offsetHeight, view.offsetWidth)
-    const xTileNum = Math.floor(view.offsetWidth / TILESIZE)
-    const yTileNum = Math.floor(view.offsetHeight / TILESIZE)
-    const width = xTileNum * TILESIZE
-    const height = yTileNum * TILESIZE
-    view.style.width = `${width}px`
-    view.style.height = `${height}px`
+    // const xTileNum = Math.floor(view.offsetWidth / TILESIZE)
+    // const yTileNum = Math.floor(view.offsetHeight / TILESIZE)
+    // const width = xTileNum * TILESIZE
+    // const height = yTileNum * TILESIZE
 
     this.app = new Application<HTMLCanvasElement>({
       // backgroundAlpha: 0,
       backgroundColor: 0x1099bb,
-      width,
-      height,
-      antialias: true,
+      resizeTo: view,
+      antialias: false,
       resolution: window.devicePixelRatio || 1,
     })
     this.graphics = new Graphics()
@@ -44,11 +42,11 @@ export class HapiWorld extends World {
 
   private setup() {
     const character = createEntity()
-      .add(C.Position.create({ x: 900, y: 500 }))
-      .add(C.Tranform.create({ width: 50, height: 50 }))
+      .add(C.Position.create({ x: 50, y: 50 }))
+      .add(C.Tranform.create({ width: 1, height: 1 }))
       .add(C.Player.create())
-      .add(C.Velocity.create({ x: 2, y: 6 }))
-      .add(C.Camera.create({ width: 300 }))
+      .add(C.Velocity.create({ x: 0.02, y: 0.02 }))
+      .add(C.Camera.create({ width: 5 }))
     this.add(character)
   }
 
@@ -64,16 +62,12 @@ export class HapiWorld extends World {
   }
 
   private firstUpdate(deltaTime: number) {
-    console.log(deltaTime)
-    const xTileNum = Math.floor(this.opts.view.offsetWidth / TILESIZE)
-    const yTileNum = Math.floor(this.opts.view.offsetHeight / TILESIZE)
-    mapSys({ world: this, app: this.app, deltaTime: 0 }, xTileNum, yTileNum)
-    console.log(this.map)
+    mapSys({ world: this, deltaTime })
   }
 
   private update(deltaTime: number) {
-    
-    cameraSys({ world: this, app: this.app, deltaTime },this.graphics)
+    cameraSys({ world: this, app: this.app, deltaTime }, this.graphics)
+
     moveSys({ world: this, deltaTime })
   }
 }

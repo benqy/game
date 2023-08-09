@@ -6,9 +6,15 @@ const moveQuery = createQuery([C.Velocity, C.Position, C.Tranform])
 
 export const moveSys = ({ world, deltaTime }: SysOpts) => {
   const entities = moveQuery.exec(world)
-  for (const [velocity, position, tranform] of entities) {
-    velocity.x = Math.random() > 0.7 ? -velocity.x : velocity.x
-    velocity.y = Math.random() > 0.6 ? -velocity.y : velocity.y
+  for (const [velocity, position] of entities) {
+    // velocity.x = Math.random() > 0.8 ? -velocity.x : velocity.x
+    // velocity.y = Math.random() > 0.7 ? -velocity.y : velocity.y
+    if(position.x < 5 || position.x > world.mapSize.x -5) {
+      velocity.x = -velocity.x
+    }
+    if(position.y < 5 || position.y > world.mapSize.y -5) {
+      velocity.y = -velocity.y
+    }
     position.x += velocity.x * deltaTime
     position.y += velocity.y * deltaTime
   }

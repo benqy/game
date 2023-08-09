@@ -1,12 +1,12 @@
-import { RenderOpts } from '../types'
+import { SysOpts } from '../types'
 import { CaveAutomaton } from '../map'
 // import { Optional, createQuery } from '@benqy/ecs'
 
 
-export function mapSys({ world, app }: RenderOpts, width:number, height:number) {
+export function mapSys({ world }: SysOpts) {
   const automaton = new CaveAutomaton({
-    width,
-    height,
+    width: world.mapSize.x,
+    height: world.mapSize.y,
     roomMinSize:50,
   })
   automaton.generate()
@@ -14,3 +14,4 @@ export function mapSys({ world, app }: RenderOpts, width:number, height:number) 
   automaton.connectRooms()
   world.map = automaton.map
 }
+

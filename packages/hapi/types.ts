@@ -4,6 +4,8 @@ import { HapiWorld } from "./world"
 export type Tile = {
   //是否不可到达
   isBlock: boolean
+  //地块上是否
+  isHolder:boolean
   theme: TileTheme
   x:number
   y:number

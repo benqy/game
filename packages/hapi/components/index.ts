@@ -32,3 +32,7 @@ export const Velocity = defineComponent(() => {
     y: 0,
   }
 })
+
+export const Enemy = defineComponent({})
+
+export const Render = defineComponent({})

@@ -5,6 +5,8 @@ import { mapSys } from './systems/map'
 import * as C from './components'
 import { cameraSys } from './systems/camera'
 import { moveSys } from './systems/move'
+import { findpath } from './systems/astar'
+import { spawnSys } from './systems/spawn'
 
 export class HapiWorld extends World {
   private firstUpdateFlag = true
@@ -35,17 +37,11 @@ export class HapiWorld extends World {
   map: Tile[][] = []
 
   private setup() {
-    const character = createEntity()
-      .add(C.Position.create({ x: 50, y: 50 }))
-      .add(C.Tranform.create({ width: 1, height: 1 }))
-      .add(C.Player.create())
-      .add(C.Velocity.create({ x: 0.5, y: 0.2 }))
-      .add(C.Camera.create({ width: 8 }))
-    this.add(character)
   }
 
   start() {
     this.app.start()
+    findpath()
     this.app.ticker.add((deltaTime) => {
       if (this.firstUpdateFlag) {
         this.firstUpdate(deltaTime)
@@ -57,11 +53,13 @@ export class HapiWorld extends World {
 
   private firstUpdate(deltaTime: number) {
     mapSys({ world: this, deltaTime })
+    spawnSys({ world: this, deltaTime })
+    // cameraSys({ world: this, app: this.app, deltaTime }, this.graphics)
+    console.log(this)
   }
 
   private update(deltaTime: number) {
     cameraSys({ world: this, app: this.app, deltaTime }, this.graphics)
-
     moveSys({ world: this, deltaTime })
   }
 }

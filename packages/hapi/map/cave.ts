@@ -55,6 +55,7 @@ export class CaveAutomaton {
         const tile = {
           isBlock,
           theme: isBlock ? TileTheme.wall : TileTheme.floor,
+          isHolder:false,
           x,
           y,
         }
@@ -111,6 +112,7 @@ export class CaveAutomaton {
           tRow.push({
             isBlock: true,
             theme: TileTheme.wall,
+            isHolder:false,
             x,
             y,
           })
@@ -118,6 +120,7 @@ export class CaveAutomaton {
           tRow.push({
             isBlock: false,
             theme: TileTheme.floor,
+            isHolder:false,
             x,
             y,
           })

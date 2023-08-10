@@ -11,3 +11,11 @@ ecs架构+pixijs的简单示例
 
 3. main 用vue3展示各项目
 
+
+## 运行
+
+```
+pnpm i
+cd packages/main
+pnpm dev
+```

@@ -53,7 +53,7 @@ export function cameraSys({ world, app }: RenderOpts, graphics: Graphics) {
         }
         const renderX = center.x + (position.x - x) * TILESIZE + xOffset
         const renderY = center.y + (position.y - y) * TILESIZE + yOffset
-        graphics.beginFill(tile.isBlock ? 0x333333 : 0xaaaaaa)
+        graphics.beginFill(tile.isBlock ? 0x000000 : 0xaaaaaa)
         graphics.drawRect(renderX, renderY, TILESIZE, TILESIZE)
         if (enemy) {
           graphics.beginFill(0xff1100)

@@ -100,30 +100,3 @@ const getNeighbors = (tile: Tile, map: Tile[][]) => {
 
   return neighbors
 }
-
-// Example usage
-// const map: Tile[][] = [
-//   [{ x: 0, y: 0, isBlock: false }, { x: 0, y: 1, isBlock: false }, { x: 0, y: 2, isBlock: false }],
-//   [{ x: 1, y: 0, isBlock: false }, { x: 1, y: 1, isBlock: true }, { x: 1, y: 2, isBlock: false }],
-//   [{ x: 2, y: 0, isBlock: false }, { x: 2, y: 1, isBlock: false }, { x: 2, y: 2, isBlock: false }],
-// ]
-
-// const start = map[0][0]
-// const end = map[2][2]
-// const path = aStar(start, end, map)
-
-// console.log(path) // Output: [{ x: 0, y: 0, isBlock: false }, { x: 0, y: 1, isBlock: false }, { x: 1, y: 1, isBlock: true }, { x: 2, y: 1, isBlock: false }, { x: 2, y: 2, isBlock: false }]
-
-export function findpath(){
-  const map: Tile[][] = [
-    [{ x: 0, y: 0, isBlock: false }, { x: 0, y: 1, isBlock: false }, { x: 0, y: 2, isBlock: false }],
-    [{ x: 1, y: 0, isBlock: false }, { x: 1, y: 1, isBlock: true }, { x: 1, y: 2, isBlock: false }],
-    [{ x: 2, y: 0, isBlock: false }, { x: 2, y: 1, isBlock: false }, { x: 2, y: 2, isBlock: false }],
-  ]
-  
-  const start = map[0][0]
-  const end = map[2][2]
-  const path = aStar(start, end, map)
-  
-  console.log(path) 
-}

@@ -1,11 +1,9 @@
-import { World, createEntity } from '@benqy/ecs'
+import { World } from '@benqy/ecs'
 import { Tile, HapiOptions } from './types'
 import { Application, Graphics } from 'pixi.js'
 import { mapSys } from './systems/map'
-import * as C from './components'
 import { cameraSys } from './systems/camera'
 import { moveSys } from './systems/move'
-import { findpath } from './systems/astar'
 import { spawnSys } from './systems/spawn'
 
 export class HapiWorld extends World {
@@ -18,7 +16,7 @@ export class HapiWorld extends World {
 
     this.app = new Application<HTMLCanvasElement>({
       // backgroundAlpha: 0,
-      backgroundColor: 0x1099bb,
+      backgroundColor: 0x000000,
       resizeTo: view,
       antialias: true,
       resolution: window.devicePixelRatio || 1,
@@ -41,7 +39,6 @@ export class HapiWorld extends World {
 
   start() {
     this.app.start()
-    findpath()
     this.app.ticker.add((deltaTime) => {
       if (this.firstUpdateFlag) {
         this.firstUpdate(deltaTime)
@@ -54,12 +51,12 @@ export class HapiWorld extends World {
   private firstUpdate(deltaTime: number) {
     mapSys({ world: this, deltaTime })
     spawnSys({ world: this, deltaTime })
-    // cameraSys({ world: this, app: this.app, deltaTime }, this.graphics)
+    cameraSys({ world: this, app: this.app, deltaTime }, this.graphics)
     console.log(this)
   }
 
   private update(deltaTime: number) {
-    cameraSys({ world: this, app: this.app, deltaTime }, this.graphics)
+    // cameraSys({ world: this, app: this.app, deltaTime }, this.graphics)
     moveSys({ world: this, deltaTime })
   }
 }

@@ -1,13 +1,19 @@
-import { RenderOpts, SysOpts, Tile } from '../types'
-import { Container, Graphics } from 'pixi.js'
+import { RenderOpts, Tile } from '../types'
+import { Container, Graphics, Sprite } from 'pixi.js'
 import { TILESIZE } from '../constants'
-import { Entity, createQuery } from '@benqy/ecs'
+import { createQuery } from '@benqy/ecs'
 import * as C from '../components'
 import { aStar } from './astar'
 // import { Optional, createQuery } from '@benqy/ecs'
 
-const cameraQuery = createQuery([C.Camera, C.Position, C.Tranform, C.Player])
-const enemyQuery = createQuery([C.Enemy, C.Render, C.Position, C.Tranform])
+const cameraQuery = createQuery([
+  C.Camera,
+  C.Position,
+  C.Tranform,
+  C.Sprite,
+  C.Player,
+])
+const enemyQuery = createQuery([C.Enemy, C.RenderAble, C.Position, C.Tranform])
 
 let isFirst = true
 
@@ -21,7 +27,7 @@ export function cameraSys({ world, app }: RenderOpts, graphics: Graphics) {
 
   const center = { x: app.view.width / 2, y: app.view.height / 2 }
   //TODO:Singleton Component, 镜头平滑移动
-  const [camera, position, tranform] = cameraQuery.exec(world)[0]
+  const [camera, position, tranform, sprite] = cameraQuery.exec(world)[0]
   const enemys = enemyQuery.exec(world)
   let cameraContainer
   if (isFirst) {
@@ -78,6 +84,7 @@ export function cameraSys({ world, app }: RenderOpts, graphics: Graphics) {
     world.map
   )
   if (paths) {
+    paths.shift()
     paths.pop()
     for (const path of paths) {
       graphics.beginFill(0x0000ff)
@@ -90,11 +97,24 @@ export function cameraSys({ world, app }: RenderOpts, graphics: Graphics) {
     }
   }
   //temp player
-  graphics.beginFill('#FF69B4')
-  graphics.drawRect(
-    center.x,
-    center.y,
-    TILESIZE * tranform.width,
-    TILESIZE * tranform.height
-  )
+  const container = new Container()
+  // graphics.beginFill('#FF69B4')
+  // graphics.drawRect(
+  //   center.x,
+  //   center.y,
+  //   TILESIZE * tranform.width,
+  //   TILESIZE * tranform.height
+  // )
+  console.log(`${world.opts.assetDir}${sprite.texture}`)
+  const player = Sprite.from(`${world.opts.assetDir}${sprite.texture}`)
+  player.width = TILESIZE * tranform.width
+  player.height = TILESIZE * tranform.height
+  player.anchor.set(sprite.anchor)
+  player.x = center.x + TILESIZE * tranform.width/2
+  player.y = center.y + TILESIZE * tranform.height/2
+  container.x = center.x
+  container.y = center.y
+  container.addChild(player)
+  app.stage.addChild(player)
+  
 }

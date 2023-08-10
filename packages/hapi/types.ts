@@ -18,8 +18,10 @@ export enum TileTheme {
   grass='grass',
 }
 
+
 export type HapiOptions = {
   view:HTMLElement,
+  assetDir:string,
 }
 
 export type SysOpts = {

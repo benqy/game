@@ -12,6 +12,7 @@ export class HapiWorld extends World {
   constructor(opts?: HapiOptions) {
     super()
     if (opts) this.opts = { ...this.opts, ...opts }
+    console.log(this.opts,4)
     const view = this.opts.view
 
     this.app = new Application<HTMLCanvasElement>({
@@ -29,6 +30,7 @@ export class HapiWorld extends World {
 
   opts = {
     view: document.body,
+    assetDir: './assets',
   }
   private graphics: Graphics
   private app: Application<HTMLCanvasElement>

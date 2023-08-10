@@ -1,14 +1,12 @@
-import { createEntity, createQuery } from '@benqy/ecs'
+import { createEntity } from '@benqy/ecs'
 import * as C from '../components'
 import { SysOpts, Tile } from '../types'
-
-const moveQuery = createQuery([C.Velocity, C.Position, C.Tranform])
 
 const addEnemy = (tile: Tile) => {
   const enemy = createEntity()
     .add(C.Position.create({ x: tile.x, y: tile.y }))
     .add(C.Tranform.create({ width: 1, height: 1 }))
-    .add(C.Render.create())
+    .add(C.RenderAble.create())
     .add(C.Enemy.create())
   return enemy
 }
@@ -28,7 +26,6 @@ const randomTile = (map: Tile[][], n = 1) => {
     }
   }
 
-  // Pick n random tiles from the list
   const result: Tile[] = []
   for (let i = 0; i < n; i++) {
     const index = Math.floor(Math.random() * tiles.length)
@@ -38,7 +35,7 @@ const randomTile = (map: Tile[][], n = 1) => {
   return result
 }
 
-export const spawnSys = ({ world, deltaTime }: SysOpts) => {
+export const spawnSys = ({ world }: SysOpts) => {
   const tiles = randomTile(world.map, 2)
   const tile = tiles.shift()
 
@@ -46,6 +43,7 @@ export const spawnSys = ({ world, deltaTime }: SysOpts) => {
   .add(C.Position.create({ x: tile!.x, y: tile!.y }))
     .add(C.Tranform.create({ width: 1, height: 1 }))
     .add(C.Player.create())
+    .add(C.Sprite.create({ texture: 'enemy/10000.webp' }))
     .add(C.Velocity.create({ x: 3.5, y: 3.5 }))
     .add(C.Camera.create({ width: 10 }))
   world.add(character)

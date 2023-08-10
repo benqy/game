@@ -10,6 +10,7 @@ export class Hapi {
 
   opts = {
     view:document.body,
+    assetDir: './assets',
   }
 
   world:HapiWorld

@@ -5,6 +5,16 @@ export const Position = defineComponent({
   y: 0,
 })
 
+export const Rigidbody = defineComponent({
+  mass: 1,
+})
+
+export const Collider = defineComponent({
+  width: 0,
+  height: 0,
+})
+
+
 export const Tranform = defineComponent({
   width: 0,
   height: 0,

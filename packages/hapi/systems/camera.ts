@@ -31,16 +31,20 @@ export function cameraSys({ world, app }: RenderOpts, graphics: Graphics) {
   }
   const renderWidth = camera.width + 2
   for (let x = position.x - renderWidth; x <= position.x + renderWidth; x++) {
-    for (
-      let y = position.y - renderWidth;
-      y <= position.y + renderWidth;
-      y++
-    ) {
+    for (let y = position.y - renderWidth; y <= position.y + renderWidth; y++) {
       const tile = world.map[Math.floor(y)]?.[Math.floor(x)]
+      const xOffset = (x % 1) * TILESIZE
+      const yOffset = (y % 1) * TILESIZE
       if (tile) {
-        const xOffset = (x % 1) * TILESIZE
-        const yOffset = (y % 1) * TILESIZE
         graphics.beginFill(tile.isBlock ? 0x333333 : 0xaaaaaa)
+        graphics.drawRect(
+          center.x + (position.x - x) * TILESIZE + xOffset,
+          center.y + (position.y - y) * TILESIZE + yOffset,
+          TILESIZE,
+          TILESIZE
+        )
+      } else {
+        graphics.beginFill(0x00000)
         graphics.drawRect(
           center.x + (position.x - x) * TILESIZE + xOffset,
           center.y + (position.y - y) * TILESIZE + yOffset,

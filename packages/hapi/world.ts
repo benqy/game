@@ -39,7 +39,7 @@ export class HapiWorld extends World {
       .add(C.Position.create({ x: 50, y: 50 }))
       .add(C.Tranform.create({ width: 1, height: 1 }))
       .add(C.Player.create())
-      .add(C.Velocity.create({ x: 0.3, y: 0.1 }))
+      .add(C.Velocity.create({ x: 0.5, y: 0.2 }))
       .add(C.Camera.create({ width: 8 }))
     this.add(character)
   }

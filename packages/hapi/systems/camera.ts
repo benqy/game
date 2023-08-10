@@ -1,5 +1,5 @@
 import { RenderOpts } from '../types'
-import { Container, Graphics, RenderTexture, Sprite } from 'pixi.js'
+import { Container, Graphics } from 'pixi.js'
 import { TILESIZE } from '../constants'
 import { createQuery } from '@benqy/ecs'
 import * as C from '../components'

@@ -1,13 +1,20 @@
 import { createQuery } from '@benqy/ecs'
 import * as C from '../components'
-import { SysOpts } from '../types'
+import { SysOpts, Tile } from '../types'
 import { PPU } from '../constants'
+import { aStar } from './astar'
 
-const moveQuery = createQuery([C.Velocity, C.Position, C.Tranform])
+const findClosedEnemy = (start: Tile, end: Tile, map: Tile[][]) => {
+  const paths = aStar(start, end, map)
+  return paths
+}
+
+const moveQuery = createQuery([C.Velocity, C.Position,C.Player, C.Tranform])
+const enemyQuery = createQuery([C.Enemy, C.RenderAble, C.Position, C.Tranform])
 
 export const moveSys = ({ world, deltaTime }: SysOpts) => {
   const entities = moveQuery.exec(world)
-  for (const [velocity, position] of entities) {
+  for (const [velocity, position,player] of entities) {
     // velocity.x = Math.random() > 0.8 ? -velocity.x : velocity.x
     // velocity.y = Math.random() > 0.7 ? -velocity.y : velocity.y
     if(position.x <2 || position.x > world.mapSize.x -2) {
@@ -16,10 +23,21 @@ export const moveSys = ({ world, deltaTime }: SysOpts) => {
     if(position.y < 2 || position.y > world.mapSize.y -2) {
       velocity.y = -velocity.y
     }
-    // let win:any = window
-    // if(win.keyhold){
-      position.x += (velocity.x/1000) * deltaTime * PPU
-      position.y += (velocity.y/1000) * deltaTime * PPU
-    // }  
+    const enemys = enemyQuery.exec(world)
+    const [, , positionEnemy] = enemys[0]
+    const paths = findClosedEnemy(
+      world.map[Math.floor(position.y)][Math.floor(position.x)],
+      world.map[positionEnemy.y][positionEnemy.x],
+      world.map
+    )
+    if (paths) {
+      const next = paths[1]
+      if (next) {
+        velocity.x = (next.x - position.x)
+        velocity.y = (next.y - position.y)
+      }
+    }
+    position.x += (velocity.x/1000) * deltaTime * PPU
+    position.y += (velocity.y/1000) * deltaTime * PPU
   }
 }

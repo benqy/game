@@ -3,7 +3,6 @@ import { TileTheme } from "../types";
 
 export const Sprite = defineComponent({
   texture: '/enemy/bug.webp',
-  anchor:0.5,
   rotation:0,
   alpha:1,
   state:'idle',

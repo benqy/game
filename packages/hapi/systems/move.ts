@@ -1,7 +1,7 @@
 import { createQuery } from '@benqy/ecs'
 import * as C from '../components'
 import { SysOpts } from '../types'
-import { TILESIZE } from '../constants'
+import { PPU } from '../constants'
 
 const moveQuery = createQuery([C.Velocity, C.Position, C.Tranform])
 
@@ -18,8 +18,8 @@ export const moveSys = ({ world, deltaTime }: SysOpts) => {
     }
     // let win:any = window
     // if(win.keyhold){
-      position.x += (velocity.x/1000) * deltaTime * TILESIZE
-      position.y += (velocity.y/1000) * deltaTime * TILESIZE
+      position.x += (velocity.x/1000) * deltaTime * PPU
+      position.y += (velocity.y/1000) * deltaTime * PPU
     // }  
   }
 }

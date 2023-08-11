@@ -53,12 +53,12 @@ export class HapiWorld extends World {
   private firstUpdate(deltaTime: number) {
     mapSys({ world: this, deltaTime })
     spawnSys({ world: this, deltaTime })
-    cameraSys({ world: this, app: this.app, deltaTime }, this.graphics)
+    // cameraSys({ world: this, app: this.app, deltaTime }, this.graphics)
     console.log(this)
   }
 
   private update(deltaTime: number) {
-    // cameraSys({ world: this, app: this.app, deltaTime }, this.graphics)
+    cameraSys({ world: this, app: this.app, deltaTime }, this.graphics)
     moveSys({ world: this, deltaTime })
   }
 }

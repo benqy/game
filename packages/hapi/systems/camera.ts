@@ -1,6 +1,6 @@
 import { RenderOpts, Tile } from '../types'
 import { Container, Graphics, Sprite } from 'pixi.js'
-import { TILESIZE } from '../constants'
+import { PPU } from '../constants'
 import { createQuery } from '@benqy/ecs'
 import * as C from '../components'
 import { aStar } from './astar'
@@ -37,7 +37,7 @@ export function cameraSys({ world, app }: RenderOpts, graphics: Graphics) {
 
     const circleMask = new Graphics()
     circleMask.beginFill(0x000000)
-    circleMask.drawCircle(center.x, center.y, camera.width * TILESIZE)
+    circleMask.drawCircle(center.x, center.y, camera.width * PPU)
     circleMask.endFill()
     cameraContainer.mask = circleMask
     cameraContainer.addChild(graphics)
@@ -47,8 +47,8 @@ export function cameraSys({ world, app }: RenderOpts, graphics: Graphics) {
   for (let x = position.x - renderWidth; x <= position.x + renderWidth; x++) {
     for (let y = position.y - renderWidth; y <= position.y + renderWidth; y++) {
       const tile = world.map[Math.floor(y)]?.[Math.floor(x)]
-      const xOffset = (x % 1) * TILESIZE
-      const yOffset = (y % 1) * TILESIZE
+      const xOffset = (x % 1) * PPU
+      const yOffset = (y % 1) * PPU
       if (tile) {
         let enemy: unknown
         for (const enemy2 of enemys) {
@@ -57,21 +57,21 @@ export function cameraSys({ world, app }: RenderOpts, graphics: Graphics) {
             enemy = enemy2
           }
         }
-        const renderX = center.x + (position.x - x) * TILESIZE + xOffset
-        const renderY = center.y + (position.y - y) * TILESIZE + yOffset
+        const renderX = center.x + (position.x - x) * PPU + xOffset
+        const renderY = center.y + (position.y - y) * PPU + yOffset
         graphics.beginFill(tile.isBlock ? 0x000000 : 0xaaaaaa)
-        graphics.drawRect(renderX, renderY, TILESIZE, TILESIZE)
+        graphics.drawRect(renderX, renderY, PPU, PPU)
         if (enemy) {
           graphics.beginFill(0xff1100)
-          graphics.drawRect(renderX, renderY, TILESIZE, TILESIZE)
+          graphics.drawRect(renderX, renderY, PPU, PPU)
         }
       } else {
         graphics.beginFill(0x00000)
         graphics.drawRect(
-          center.x + (position.x - x) * TILESIZE + xOffset,
-          center.y + (position.y - y) * TILESIZE + yOffset,
-          TILESIZE,
-          TILESIZE
+          center.x + (position.x - x) * PPU + xOffset,
+          center.y + (position.y - y) * PPU + yOffset,
+          PPU,
+          PPU
         )
       }
       //render enemys in camera radius
@@ -89,10 +89,10 @@ export function cameraSys({ world, app }: RenderOpts, graphics: Graphics) {
     for (const path of paths) {
       graphics.beginFill(0x0000ff)
       graphics.drawRect(
-        center.x + (position.x - path.x) * TILESIZE,
-        center.y + (position.y - path.y) * TILESIZE,
-        TILESIZE,
-        TILESIZE
+        center.x + (position.x - path.x) * PPU,
+        center.y + (position.y - path.y) * PPU,
+        PPU,
+        PPU
       )
     }
   }
@@ -102,16 +102,16 @@ export function cameraSys({ world, app }: RenderOpts, graphics: Graphics) {
   // graphics.drawRect(
   //   center.x,
   //   center.y,
-  //   TILESIZE * tranform.width,
-  //   TILESIZE * tranform.height
+  //   PPU * tranform.width,
+  //   PPU * tranform.height
   // )
-  console.log(`${world.opts.assetDir}${sprite.texture}`)
+  // console.log(`${world.opts.assetDir}${sprite.texture}`)
   const player = Sprite.from(`${world.opts.assetDir}${sprite.texture}`)
-  player.width = TILESIZE * tranform.width
-  player.height = TILESIZE * tranform.height
-  player.anchor.set(sprite.anchor)
-  player.x = center.x + TILESIZE * tranform.width/2
-  player.y = center.y + TILESIZE * tranform.height/2
+  player.width = PPU * tranform.width
+  player.height = PPU * tranform.height
+  player.anchor.set(tranform.anchor)
+  player.x = center.x + PPU * tranform.width/2
+  player.y = center.y + PPU * tranform.height/2
   container.x = center.x
   container.y = center.y
   container.addChild(player)

@@ -8,6 +8,7 @@ export const Position = defineComponent({
 export const Tranform = defineComponent({
   width: 0,
   height: 0,
+  anchor:0.5,
 })
 
 export const Rigidbody = defineComponent({

@@ -46,4 +46,10 @@ export class Vector2 {
     const dy = other.y - this.y;
     return new Vector2(dx, dy).normalize();
   }
+
+  public angleTo(other: Vector2): number {
+    const dx = other.x - this.x;
+    const dy = other.y - this.y;
+    return Math.atan2(dy, dx);
+  }
 }

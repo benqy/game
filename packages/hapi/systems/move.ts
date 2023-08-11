@@ -3,6 +3,7 @@ import * as C from '../components'
 import { SysOpts, Tile } from '../types'
 import { PPU } from '../constants'
 import { aStar } from './astar'
+import { Vector2 } from '../utils/vector2'
 
 const findClosedEnemy = (start: Tile, end: Tile, map: Tile[][]) => {
   const paths = aStar(start, end, map)
@@ -30,14 +31,20 @@ export const moveSys = ({ world, deltaTime }: SysOpts) => {
       world.map[positionEnemy.y][positionEnemy.x],
       world.map
     )
-    if (paths) {
+    if (paths?.length) {
+      paths.shift()
       const next = paths[1]
+      // console.log(next.x, next.y, position.x, position.y)
       if (next) {
         velocity.x = (next.x - position.x)
         velocity.y = (next.y - position.y)
+        // const p1 = new Vector2(position.x, position.y) 
+        // const p2 = new Vector2(next.x, next.y)
+        // const angle = p1.directionTo(p2)
+        // console.log(p1.directionTo(p2),p1.angleTo(p2))
+        position.x += (velocity.x/1000) * deltaTime * PPU
+        position.y += (velocity.y/1000) * deltaTime * PPU
       }
     }
-    position.x += (velocity.x/1000) * deltaTime * PPU
-    position.y += (velocity.y/1000) * deltaTime * PPU
   }
 }

@@ -1,5 +1,5 @@
 import { SysOpts } from '../types'
-import { CaveAutomaton } from '../map'
+import { CaveAutomaton } from '../plugins/map'
 // import { Optional, createQuery } from '@benqy/ecs'
 
 

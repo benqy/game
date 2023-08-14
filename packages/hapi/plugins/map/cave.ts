@@ -1,5 +1,5 @@
-import { Tile, TileTheme } from '../types'
-import { randomByRatio } from '../utils'
+import { Tile, TileTheme } from '../../types'
+import { randomByRatio } from '../../utils'
 
 type OnProgress = (map: Tile[][]) => void
 

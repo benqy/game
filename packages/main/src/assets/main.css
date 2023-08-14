@@ -63,3 +63,8 @@ $blue-color: #226699; */
   background-repeat: no-repeat;
   background-position: center center;
 }
+
+.game {
+  width: 100vw;
+  height: 100vh;
+}

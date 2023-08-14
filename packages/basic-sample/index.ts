@@ -20,7 +20,7 @@ const randomPosition = () => {
 
 export class BasicGame {
   constructor(public id: string) {
-    const el: HTMLElement = document.querySelector(`#${id}`)!
+    const el: HTMLElement = document.querySelector(`.${id}`)!
     this.app = new Application<HTMLCanvasElement>({
       // backgroundAlpha: 0,
       backgroundColor: 0x1099bb,

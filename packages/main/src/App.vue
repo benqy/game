@@ -5,7 +5,7 @@ import RPG from './pages/RPG.vue'
 // type AppState = {
 //   page: string
 // }
-let state = ref({ page: '2' })
+let state = ref({ page: '0' })
 
 const changePage = (page: string) => {
   state.value.page = page

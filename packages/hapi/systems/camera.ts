@@ -1,4 +1,4 @@
-import { RenderOpts, SysOpts, Tile } from '../types'
+import { SysOpts, Tile } from '../types'
 import { Container, Graphics, Sprite } from 'pixi.js'
 import { PPU } from '../constants'
 import { createQuery } from '@benqy/ecs'

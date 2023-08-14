@@ -1,10 +1,8 @@
 import { Tile, HapiOptions, SystemType } from '../types'
 import { Application, Graphics } from 'pixi.js'
-import { mapSys, cameraSys, moveSys, spawnSys } from '../systems'
 import { HapiWorld } from './hapi'
 
 export class MainWorld extends HapiWorld<MainWorld> {
-  mapSize = { x: 150, y: 150 }
   constructor(opts?: HapiOptions) {
     super()
     if (opts) this.opts = { ...this.opts, ...opts }
@@ -19,16 +17,9 @@ export class MainWorld extends HapiWorld<MainWorld> {
     })
     this.graphics = new Graphics()
     view.appendChild(this.app.view)
-
-    this.addSys(mapSys, SystemType.firstUpdate)
-    this.addSys(spawnSys, SystemType.firstUpdate)
-
-    this.addSys(cameraSys, SystemType.update)
-    this.addSys(moveSys, SystemType.update)
-
-    this.setup()
   }
 
+  mapSize = { x: 150, y: 150 }
   opts = {
     view: document.body,
     assetDir: './assets',
@@ -37,7 +28,7 @@ export class MainWorld extends HapiWorld<MainWorld> {
   public app: Application<HTMLCanvasElement>
   map: Tile[][] = []
 
-  protected setup() {
+  public setup() {
     this.callSysByType(SystemType.setup, 0)
   }
 

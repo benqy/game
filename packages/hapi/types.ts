@@ -1,4 +1,3 @@
-import { Application } from "pixi.js"
 import { HapiWorld } from "./worlds/hapi"
 
 export type Tile = {
@@ -29,13 +28,7 @@ export type SysOpts<T extends HapiWorld = HapiWorld> = {
   deltaTime: number
 }
 
-export type RenderOpts = SysOpts<HapiWorld> & {
-  app: Application
-}
-
 export enum SystemType {
-  // (opts: SysOpts): void
-  // (opts: RenderOpts, graphics: PIXI.Graphics): void
   setup,
   start,
   firstUpdate,

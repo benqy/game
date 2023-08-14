@@ -91,13 +91,13 @@ export class Quadtree {
     const w = this.boundary.width / 2
     const h = this.boundary.height / 2
 
-    const nwBoundary = new Rectangle(x - w, y - h, w, h)
+    const nwBoundary = new Rectangle(x , y, w, h)
     this.nw = new Quadtree(nwBoundary, this.capacity)
 
-    const neBoundary = new Rectangle(x + w, y - h, w, h)
+    const neBoundary = new Rectangle(x + w, y , w, h)
     this.ne = new Quadtree(neBoundary, this.capacity)
 
-    const swBoundary = new Rectangle(x - w, y + h, w, h)
+    const swBoundary = new Rectangle(x, y + h, w, h)
     this.sw = new Quadtree(swBoundary, this.capacity)
 
     const seBoundary = new Rectangle(x + w, y + h, w, h)

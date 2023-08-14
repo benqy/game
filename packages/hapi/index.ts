@@ -1,10 +1,10 @@
-import { cameraSys, mapSys, moveSys, spawnSys } from "./systems"
-import { HapiOptions, SystemType } from "./types"
-import { MainWorld } from "./worlds"
-
+import { sampleMoveSys, sampleRenderSys, sampleSpawnSys } from './sample'
+import { cameraSys, mapSys, moveSys, spawnSys } from './systems'
+import { HapiOptions, SystemType } from './types'
+import { MainWorld } from './worlds'
 
 export class MainSence {
-  constructor(opts?:HapiOptions) {
+  constructor(opts?: HapiOptions) {
     if (opts) this.opts = { ...this.opts, ...opts }
     this.world = new MainWorld(this.opts)
     this.world.addSys(mapSys, SystemType.firstUpdate)
@@ -16,13 +16,36 @@ export class MainSence {
   }
 
   opts = {
-    view:document.body,
+    view: document.body,
     assetDir: './assets',
   }
 
-  world:MainWorld
+  world: MainWorld
+
+  start() {
+    this.world.start()
+  }
+}
+
+export class QuadSence {
+  constructor(opts?: HapiOptions) {
+    if (opts) this.opts = { ...this.opts, ...opts }
+    this.world = new MainWorld(this.opts)
+    this.world.addSys(sampleSpawnSys,SystemType.firstUpdate)
+    this.world.addSys(sampleMoveSys,SystemType.firstUpdate)
+    this.world.addSys(sampleRenderSys,SystemType.firstUpdate)
+    this.world.setup()
+  }
+
+  opts = {
+    view: document.body,
+    assetDir: './assets',
+  }
+
+  world: MainWorld
 
   start(){
+    this.world.app.stage.addChild(this.world.graphics)
     this.world.start()
   }
 }

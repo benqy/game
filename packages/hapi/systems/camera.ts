@@ -1,9 +1,10 @@
-import { RenderOpts, Tile } from '../types'
+import { RenderOpts, SysOpts, Tile } from '../types'
 import { Container, Graphics, Sprite } from 'pixi.js'
 import { PPU } from '../constants'
 import { createQuery } from '@benqy/ecs'
 import * as C from '../components'
 import { aStar } from './astar'
+import { MainWorld } from '../worlds'
 // import { Optional, createQuery } from '@benqy/ecs'
 
 const cameraQuery = createQuery([
@@ -22,7 +23,9 @@ const findClosedEnemy = (start: Tile, end: Tile, map: Tile[][]) => {
   return paths
 }
 
-export function cameraSys({ world, app }: RenderOpts, graphics: Graphics) {
+export function cameraSys({ world }: SysOpts<MainWorld>) {
+  const graphics = world.graphics
+  const app = world.app
   graphics.clear()
 
   const center = { x: app.view.width / 2, y: app.view.height / 2 }
@@ -91,8 +94,8 @@ export function cameraSys({ world, app }: RenderOpts, graphics: Graphics) {
       graphics.drawRect(
         center.x + (position.x - path.x) * PPU,
         center.y + (position.y - path.y) * PPU,
-        PPU,
-        PPU
+        3,
+        3
       )
     }
   }

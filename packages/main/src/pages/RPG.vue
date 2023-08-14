@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Hapi } from '@benqy/hapi'
+import { MainSence } from '@benqy/hapi'
 import { onMounted } from 'vue'
 
 onMounted(() => {
-  const hapi = new Hapi({
+  const hapi = new MainSence({
     view: document.querySelector('.game')!,
     assetDir: 'http://localhost:5173/src/assets/img/',
   })

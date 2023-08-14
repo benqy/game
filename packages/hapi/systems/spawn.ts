@@ -1,6 +1,7 @@
 import { createEntity } from '@benqy/ecs'
 import * as C from '../components'
 import { SysOpts, Tile } from '../types'
+import { MainWorld } from '../worlds'
 
 const addEnemy = (tile: Tile) => {
   const enemy = createEntity()
@@ -35,12 +36,12 @@ const randomTile = (map: Tile[][], n = 1) => {
   return result
 }
 
-export const spawnSys = ({ world }: SysOpts) => {
+export const spawnSys = ({ world }: SysOpts<MainWorld>) => {
   const tiles = randomTile(world.map, 2)
   const tile = tiles.shift()
 
   const character = createEntity()
-  .add(C.Position.create({ x: tile!.x, y: tile!.y }))
+    .add(C.Position.create({ x: tile!.x, y: tile!.y }))
     .add(C.Tranform.create({ width: 1, height: 1 }))
     .add(C.Player.create())
     .add(C.Sprite.create({ texture: 'enemy/10000.webp' }))

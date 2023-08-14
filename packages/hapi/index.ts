@@ -1,11 +1,11 @@
 import { HapiOptions } from "./types"
-import { HapiWorld } from "./world"
+import { MainWorld } from "./worlds"
 
 
-export class Hapi {
+export class MainSence {
   constructor(opts?:HapiOptions) {
     if (opts) this.opts = { ...this.opts, ...opts }
-    this.world = new HapiWorld(this.opts)
+    this.world = new MainWorld(this.opts)
   }
 
   opts = {
@@ -13,7 +13,7 @@ export class Hapi {
     assetDir: './assets',
   }
 
-  world:HapiWorld
+  world:MainWorld
 
   start(){
     this.world.start()

@@ -32,7 +32,7 @@ export class QuadSence {
     if (opts) this.opts = { ...this.opts, ...opts }
     this.world = new MainWorld(this.opts)
     this.world.addSys(sampleSpawnSys,SystemType.firstUpdate)
-    this.world.addSys(sampleMoveSys,SystemType.firstUpdate)
+    this.world.addSys(sampleMoveSys,SystemType.update)
     this.world.addSys(sampleRenderSys,SystemType.firstUpdate)
     this.world.setup()
   }

@@ -6,7 +6,7 @@ import * as C from '../components'
 import { Random } from '../utils'
 import { Quadtree, Rectangle } from '../plugins/collision'
 
-const BULLET_NUM = 500
+const BULLET_NUM = 100
 
 const CircleC = defineComponent({ radius: 2 })
 
@@ -53,7 +53,6 @@ const drawQuadRect = (world: MainWorld, quadtree: Quadtree): void => {
     quadtree.boundary.width,
     quadtree.boundary.height
   )
-  console.log(quadtree)
   if (quadtree.nw) drawQuadRect(world, quadtree.nw)
   if (quadtree.ne) drawQuadRect(world, quadtree.ne)
   if (quadtree.sw) drawQuadRect(world, quadtree.sw)
@@ -66,6 +65,7 @@ export const sampleMoveSys = ({ world }: SysOpts<MainWorld>) => {
     new Rectangle(0, 1, world.app.view.width, world.app.view.height),
     4
   )
+  world.graphics.clear()
   for (const entity of entities) {
     const [velocity, position, circleC] = entity
     quadtree.insert({ x: position.x, y: position.y })
@@ -96,7 +96,6 @@ export const sampleMoveSys = ({ world }: SysOpts<MainWorld>) => {
         )
       ) {
         collisions.push([entity, nearbyPoint])
-        console.log(entity)
         world.graphics.beginFill(0x00ff00)
         world.graphics.drawCircle(position.x, position.y, circleC.radius)
       } else {
@@ -104,14 +103,14 @@ export const sampleMoveSys = ({ world }: SysOpts<MainWorld>) => {
         world.graphics.drawCircle(position.x, position.y, circleC.radius)
       }
     }
-    // if (position.x >= world.app.view.width || position.x <= 0) {
-    //   velocity.x = -velocity.x
-    // }
-    // if (position.y >= world.app.view.height || position.y <= 0) {
-    //   velocity.y = -velocity.y
-    // }
-    // position.x += velocity.x
-    // position.y += velocity.y
+    if (position.x >= world.app.view.width || position.x <= 0) {
+      velocity.x = -velocity.x
+    }
+    if (position.y >= world.app.view.height || position.y <= 0) {
+      velocity.y = -velocity.y
+    }
+    position.x += velocity.x
+    position.y += velocity.y
   }
 }
 

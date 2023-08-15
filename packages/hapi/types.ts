@@ -37,3 +37,8 @@ export enum SystemType {
 }
 
 export type System<T extends HapiWorld = HapiWorld> = ({ world, deltaTime }: SysOpts<T>) => void
+
+export type Point = {
+  x: number
+  y: number
+}

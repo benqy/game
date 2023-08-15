@@ -6,7 +6,7 @@ import * as C from '../components'
 import { Random } from '../utils'
 import { Quadtree, Rectangle } from '../plugins/collision'
 
-const BULLET_NUM = 100
+const BULLET_NUM = 900
 
 const CircleC = defineComponent({ radius: 2 })
 

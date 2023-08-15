@@ -6,7 +6,7 @@ import QuadTree from './pages/QuadTree.vue'
 // type AppState = {
 //   page: string
 // }
-let state = ref({ page: '3' })
+let state = ref({ page: '2' })
 
 const changePage = (page: string) => {
   state.value.page = page

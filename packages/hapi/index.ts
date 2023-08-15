@@ -1,4 +1,4 @@
-import { sampleMoveSys, sampleRenderSys, sampleSpawnSys } from './sample'
+import { sampleMoveSys, sampleRenderSys, sampleSpawnSys } from './sample/quadtree'
 import { cameraSys, mapSys, moveSys, spawnSys } from './systems'
 import { HapiOptions, SystemType } from './types'
 import { MainWorld } from './worlds'
@@ -49,3 +49,4 @@ export class QuadSence {
     this.world.start()
   }
 }
+
